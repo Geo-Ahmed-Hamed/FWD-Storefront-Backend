@@ -1,14 +1,14 @@
 {
     "dev": {
       "driver": "pg",
-      "host": "172.24.96.1",
+      "host": "127.0.0.1",
       "database": "store",
       "user": "full_stack_user",
       "password": "password123"
     },
     "test": {
       "driver": "pg",
-      "host": "172.24.96.1",
+      "host": "127.0.0.1",
       "database": "store_test",
       "user": "full_stack_user",
       "password": "password123"

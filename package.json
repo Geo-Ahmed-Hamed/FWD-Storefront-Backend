@@ -6,7 +6,8 @@
   "scripts": {
     "start:dev": "npx nodemon",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "set ENV=test&& db-migrate db:drop test && db-migrate db:create test  && db-migrate --env test down && npx tsc && db-migrate --env test up && jasmine",
+    "test:windows": "set ENV=test&& db-migrate db:drop test && db-migrate db:create test  && db-migrate --env test down && npx tsc && db-migrate --env test up && jasmine",
+    "test": "ENV=test&& db-migrate db:drop test && db-migrate db:create test  && db-migrate --env test down && npx tsc && db-migrate --env test up && jasmine",
     "build": "npx tsc"
   },
   "author": "Udacity",

@@ -1,5 +1,12 @@
 # Storefront Backend Project
 
+## Instructions
+- change postgress host ip in both files [.env, database.json]
+- run [db-migrate --env dev up] in terminal to migrate database up
+- run [npm run test] for tests if your operating system is linux
+- run [npm run test:windows] for tests if your operating system is windows
+- run [npm run start:dev] to run the project
+
 ## Getting Started
 
 This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.

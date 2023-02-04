@@ -5,27 +5,27 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products 
-- [OPTIONAL] Products by category (args: product category)
+- Index                                                                                         'products'                      [GET] 
+- Show  (product_id: number)                                                                    'products/:id'                  [GET] 
+- Create [token required] (name: string, price: number)                                         'products'                      [POST] 
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required]                                                                        'users'                         [GET]
+- Show [token required] (user_id: number)                                                       'users/:id'                     [GET]
+- Create (firstName: string, lastName: string, password: string)                                'users'                         [POST]
+- Login  (firstName: string, password: string)                                                  'users/login'                   [POST]
+- Current user order [token required] (user_id: number)                                         'users/:id/order'               [GET]
 
 #### Orders
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+- Create Order for user [token required] (userId: number)                                       'orders'                        [POST]
+- Add Product to order  [token required] (id: number, productId:number, quantity: number)       'orders/:id/products'           [POST]
+- Completed Orders by user [token required] (user_id: number)                                   'orders/complete'               [PUT]
 
 ## Data Shapes
 #### Product
--  id
+- id
 - name
 - price
-- [OPTIONAL] category
 
 #### User
 - id
@@ -40,3 +40,25 @@ These are the notes from a meeting with the frontend developer that describe wha
 - user_id
 - status of order (active or complete)
 
+## Table Shapes
+#### Products
+- Id SERIAL
+- Name VARCHAR(100) 
+- Price INT
+
+#### Users
+- Id SERIAL 
+- FirstName VARCHAR(100) 
+- LastName VARCHAR(100) 
+- Password VARCHAR(200)
+
+#### Orders
+- Id SERIAL 
+- User_Id INT [foreign key to users table]
+- IsActive BOOLEAN
+
+#### Orders_Products
+- Id SERIAL 
+- Order_Id INT [foreign key to orders table]
+- Product_Id INT [foreign key to products table]
+- Quantity INT
