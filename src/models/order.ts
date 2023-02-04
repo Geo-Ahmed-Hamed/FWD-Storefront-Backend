@@ -2,9 +2,16 @@
 import client from "../database";
 
 export type Order = {
-    id?: string,
+    id?: Number,
     user_id: Number,
     isActive: Boolean
+}
+
+export type OrderProduct = {
+  id?: Number, 
+  order_id: Number, 
+  product_id: Number, 
+  quantity: Number
 }
 
 export class OrderStore{
@@ -65,7 +72,7 @@ export class OrderStore{
         }
       }
 
-      async addProduct(quantity: number, orderId: number, productId: number): Promise<Order> {
+      async addProduct(quantity: number, orderId: number, productId: number): Promise<OrderProduct> {
         try {
           const ordersql = 'SELECT * FROM Orders WHERE id=($1)'
           //@ts-ignore

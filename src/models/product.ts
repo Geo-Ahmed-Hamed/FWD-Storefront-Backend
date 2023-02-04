@@ -40,9 +40,9 @@ export class ProductStore{
             // @ts-ignore
             const conn = await client.connect()
             const result = await conn.query(sql, [p.name, p.price])
-            const user = result.rows[0]
+            const product = result.rows[0]
             conn.release()
-            return user
+            return product
           } catch (err) {
               throw new Error(`Could not add new product ${p.name}. Error: ${err}`)
           }

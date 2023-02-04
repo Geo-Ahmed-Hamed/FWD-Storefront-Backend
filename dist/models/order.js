@@ -39,14 +39,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserStore = void 0;
+exports.OrderStore = void 0;
 // @ts-ignore
 var database_1 = __importDefault(require("../database"));
-var bcrypt_1 = __importDefault(require("bcrypt"));
-var UserStore = /** @class */ (function () {
-    function UserStore() {
+var OrderStore = /** @class */ (function () {
+    function OrderStore() {
     }
-    UserStore.prototype.index = function () {
+    OrderStore.prototype.index = function () {
         return __awaiter(this, void 0, void 0, function () {
             var conn, sql, result, error_1;
             return __generator(this, function (_a) {
@@ -56,7 +55,7 @@ var UserStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT Id, FirstName, LastName FROM Users';
+                        sql = 'SELECT * FROM Orders';
                         return [4 /*yield*/, conn.query(sql)];
                     case 2:
                         result = _a.sent();
@@ -64,117 +63,123 @@ var UserStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows];
                     case 3:
                         error_1 = _a.sent();
-                        throw new Error("Cannot get users ".concat(error_1));
+                        throw new Error("Cannot get orders ".concat(error_1));
                     case 4: return [2 /*return*/];
                 }
             });
         });
     };
-    UserStore.prototype.show = function (id) {
+    OrderStore.prototype.create = function (o) {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, conn, result, err_1;
+            var ordersql, conn, result, order, err_1, sql, conn, result, order, err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = 'SELECT Id, FirstName, LastName FROM Users WHERE id=($1)';
+                        ordersql = 'SELECT * FROM Orders WHERE User_Id=($1)';
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        return [4 /*yield*/, conn.query(sql, [id])];
+                        return [4 /*yield*/, conn.query(ordersql, [o.user_id])];
                     case 2:
                         result = _a.sent();
-                        conn.release();
-                        return [2 /*return*/, result.rows[0]];
-                    case 3:
-                        err_1 = _a.sent();
-                        throw new Error("Could not find user ".concat(id, ". Error: ").concat(err_1));
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    UserStore.prototype.showUserOrder = function (user_id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var sql, conn, result, err_2;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        sql = "SELECT Orders.Id as order_id, Products.Name as product_name, \n                         Products.Price as product_price, Orders_Products.Quantity as quantity\n                         FROM Orders INNER JOIN Orders_Products ON Orders.Id = Orders_Products.Order_Id\n                         INNER JOIN Products on Products.Id = Orders_Products.Product_Id\n                         WHERE Orders.User_Id=($1) AND IsActive = true";
-                        return [4 /*yield*/, database_1.default.connect()];
-                    case 1:
-                        conn = _a.sent();
-                        return [4 /*yield*/, conn.query(sql, [user_id])];
-                    case 2:
-                        result = _a.sent();
-                        conn.release();
-                        return [2 /*return*/, result.rows];
-                    case 3:
-                        err_2 = _a.sent();
-                        throw new Error("Could not find orders for user ".concat(user_id, ". Error: ").concat(err_2));
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    UserStore.prototype.create = function (u) {
-        return __awaiter(this, void 0, void 0, function () {
-            var sql, conn, _a, BCRYPT_PASSWORD, SALT_ROUNDS, hash, result, user, err_3;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _b.trys.push([0, 3, , 4]);
-                        sql = 'INSERT INTO Users (FirstName, LastName, Password) VALUES($1, $2, $3) RETURNING *';
-                        return [4 /*yield*/, database_1.default.connect()];
-                    case 1:
-                        conn = _b.sent();
-                        _a = process.env, BCRYPT_PASSWORD = _a.BCRYPT_PASSWORD, SALT_ROUNDS = _a.SALT_ROUNDS;
-                        hash = bcrypt_1.default.hashSync(u.password + BCRYPT_PASSWORD, parseInt(SALT_ROUNDS));
-                        return [4 /*yield*/, conn.query(sql, [u.firstName, u.lastName, hash])];
-                    case 2:
-                        result = _b.sent();
-                        user = result.rows[0];
-                        conn.release();
-                        return [2 /*return*/, user];
-                    case 3:
-                        err_3 = _b.sent();
-                        throw new Error("Could not add new user ".concat(u.firstName, ". Error: ").concat(err_3));
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    UserStore.prototype.authenticate = function (username, password) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, BCRYPT_PASSWORD, SALT_ROUNDS, conn, sql, result, user, err_4;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _b.trys.push([0, 3, , 4]);
-                        _a = process.env, BCRYPT_PASSWORD = _a.BCRYPT_PASSWORD, SALT_ROUNDS = _a.SALT_ROUNDS;
-                        return [4 /*yield*/, database_1.default.connect()];
-                    case 1:
-                        conn = _b.sent();
-                        sql = 'SELECT Password FROM Users WHERE FirstName=($1)';
-                        return [4 /*yield*/, conn.query(sql, [username])];
-                    case 2:
-                        result = _b.sent();
-                        if (result.rows.length) {
-                            user = result.rows[0];
-                            if (bcrypt_1.default.compareSync(password + SALT_ROUNDS, user.password)) {
-                                return [2 /*return*/, user];
-                            }
+                        order = result.rows[0];
+                        if (order !== undefined && order.isactive != false) {
+                            throw new Error("Could not create order because there is an active order for this user");
                         }
+                        conn.release();
                         return [3 /*break*/, 4];
                     case 3:
-                        err_4 = _b.sent();
-                        throw new Error("Could not authonticate. Error: ".concat(err_4));
-                    case 4: return [2 /*return*/, null];
+                        err_1 = _a.sent();
+                        throw new Error("".concat(err_1));
+                    case 4:
+                        _a.trys.push([4, 7, , 8]);
+                        sql = 'INSERT INTO Orders (User_Id, IsActive) VALUES($1, $2) RETURNING *';
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 5:
+                        conn = _a.sent();
+                        return [4 /*yield*/, conn.query(sql, [o.user_id, o.isActive])];
+                    case 6:
+                        result = _a.sent();
+                        order = result.rows[0];
+                        conn.release();
+                        return [2 /*return*/, order];
+                    case 7:
+                        err_2 = _a.sent();
+                        throw new Error("Could not add new order ".concat(o.id, ". Error: ").concat(err_2));
+                    case 8: return [2 /*return*/];
                 }
             });
         });
     };
-    return UserStore;
+    OrderStore.prototype.complete = function (userId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var sql, conn, result, order, err_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        sql = 'UPDATE Orders SET IsActive = false where User_Id = ($1) AND IsActive = true RETURNING *';
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        return [4 /*yield*/, conn.query(sql, [userId])];
+                    case 2:
+                        result = _a.sent();
+                        order = result.rows[0];
+                        conn.release();
+                        return [2 /*return*/, order];
+                    case 3:
+                        err_3 = _a.sent();
+                        throw new Error("Could not change order status to complete for user ".concat(userId, " : ").concat(err_3));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    OrderStore.prototype.addProduct = function (quantity, orderId, productId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var ordersql, conn, result, order, err_4, sql, conn, result, order, err_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        ordersql = 'SELECT * FROM Orders WHERE id=($1)';
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        return [4 /*yield*/, conn.query(ordersql, [orderId])];
+                    case 2:
+                        result = _a.sent();
+                        order = result.rows[0];
+                        if (order.isactive != true) {
+                            throw new Error("Could not add product ".concat(productId, " to order ").concat(orderId, " because order status is completed"));
+                        }
+                        conn.release();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_4 = _a.sent();
+                        throw new Error("".concat(err_4));
+                    case 4:
+                        _a.trys.push([4, 7, , 8]);
+                        sql = 'INSERT INTO Orders_Products (Quantity, Order_Id, Product_Id) VALUES($1, $2, $3) RETURNING *';
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 5:
+                        conn = _a.sent();
+                        return [4 /*yield*/, conn.query(sql, [quantity, orderId, productId])];
+                    case 6:
+                        result = _a.sent();
+                        order = result.rows[0];
+                        conn.release();
+                        return [2 /*return*/, order];
+                    case 7:
+                        err_5 = _a.sent();
+                        throw new Error("Could not add product ".concat(productId, " to order ").concat(orderId, ": ").concat(err_5));
+                    case 8: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return OrderStore;
 }());
-exports.UserStore = UserStore;
+exports.OrderStore = OrderStore;

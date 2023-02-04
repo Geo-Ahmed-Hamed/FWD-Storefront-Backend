@@ -5,7 +5,7 @@ CREATE TABLE Users ( Id SERIAL PRIMARY KEY,
 
 CREATE TABLE Products ( Id SERIAL PRIMARY KEY, 
                         Name VARCHAR(100) NOT NULL, 
-                        Price DECIMAL NOT NULL );
+                        Price INT NOT NULL );
 
 CREATE TABLE Orders ( Id SERIAL PRIMARY KEY, 
                       User_Id INT NOT NULL, 
@@ -18,7 +18,7 @@ CREATE TABLE Orders ( Id SERIAL PRIMARY KEY,
 CREATE TABLE Orders_Products ( Id SERIAL PRIMARY KEY, 
                                Order_Id INT NOT NULL, 
                                Product_Id INT NOT NULL, 
-                               Quantity NUMERIC NOT NULL,
+                               Quantity INT NOT NULL,
                      
                                CONSTRAINT FK_order_order FOREIGN KEY(Order_Id)
                                REFERENCES Orders(Id),
