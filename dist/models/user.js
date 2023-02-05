@@ -131,7 +131,7 @@ var UserStore = /** @class */ (function () {
                         conn = _b.sent();
                         _a = process.env, BCRYPT_PASSWORD = _a.BCRYPT_PASSWORD, SALT_ROUNDS = _a.SALT_ROUNDS;
                         hash = bcrypt_1.default.hashSync(u.password + BCRYPT_PASSWORD, parseInt(SALT_ROUNDS));
-                        return [4 /*yield*/, conn.query(sql, [u.firstName, u.lastName, hash])];
+                        return [4 /*yield*/, conn.query(sql, [u.firstname, u.lastname, hash])];
                     case 2:
                         result = _b.sent();
                         user = result.rows[0];
@@ -139,7 +139,7 @@ var UserStore = /** @class */ (function () {
                         return [2 /*return*/, user];
                     case 3:
                         err_3 = _b.sent();
-                        throw new Error("Could not add new user ".concat(u.firstName, ". Error: ").concat(err_3));
+                        throw new Error("Could not add new user ".concat(u.firstname, ". Error: ").concat(err_3));
                     case 4: return [2 /*return*/];
                 }
             });

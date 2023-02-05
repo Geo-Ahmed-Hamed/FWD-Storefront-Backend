@@ -4,7 +4,7 @@ import client from "../database";
 export type Order = {
     id?: Number,
     user_id: Number,
-    isActive: Boolean
+    isactive: Boolean
 }
 
 export type OrderProduct = {
@@ -49,7 +49,7 @@ export class OrderStore{
             const sql = 'INSERT INTO Orders (User_Id, IsActive) VALUES($1, $2) RETURNING *'
             // @ts-ignore
             const conn = await client.connect()
-            const result = await conn.query(sql, [o.user_id, o.isActive])
+            const result = await conn.query(sql, [o.user_id, o.isactive])
             const order = result.rows[0]
             conn.release()
             return order
@@ -79,7 +79,7 @@ export class OrderStore{
           const conn = await client.connect()
           const result = await conn.query(ordersql, [orderId])
           const order = result.rows[0]
-          
+
           if (order.isactive != true) {
             throw new Error(`Could not add product ${productId} to order ${orderId} because order status is completed`)
           }

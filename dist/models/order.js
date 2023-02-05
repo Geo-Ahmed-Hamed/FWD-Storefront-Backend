@@ -98,7 +98,7 @@ var OrderStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 5:
                         conn = _a.sent();
-                        return [4 /*yield*/, conn.query(sql, [o.user_id, o.isActive])];
+                        return [4 /*yield*/, conn.query(sql, [o.user_id, o.isactive])];
                     case 6:
                         result = _a.sent();
                         order = result.rows[0];

@@ -10,7 +10,7 @@ var product_1 = __importDefault(require("./handlers/product"));
 var order_1 = __importDefault(require("./handlers/order"));
 var cors_1 = __importDefault(require("cors"));
 var app = (0, express_1.default)();
-var address = "0.0.0.0:3000";
+var port = process.env.PORT || 3000;
 app.use(body_parser_1.default.json());
 app.use((0, cors_1.default)({ origin: '*' }));
 app.get('/', function (req, res) {
@@ -19,6 +19,6 @@ app.get('/', function (req, res) {
 (0, user_1.default)(app);
 (0, product_1.default)(app);
 (0, order_1.default)(app);
-app.listen(3000, function () {
-    console.log("starting app on: ".concat(address));
+app.listen(port, function () {
+    console.log("starting app on: ".concat(port));
 });

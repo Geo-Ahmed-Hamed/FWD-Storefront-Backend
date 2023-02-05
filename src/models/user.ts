@@ -4,14 +4,14 @@ import bcrypt from "bcrypt";
 
 export type User = {
     id?: Number,
-    firstName: String,
-    lastName: String,
-    password: String
+    firstname: string,
+    lastname: string,
+    password: string
 }
 
 export type UserOrder = {
     order_id: Number,
-    product_name: String,
+    product_name: string,
     product_price: Number,
     quantity: Number
 }
@@ -70,12 +70,12 @@ export class UserStore{
                 u.password + (BCRYPT_PASSWORD as string), 
                 parseInt(SALT_ROUNDS as string)
               );
-            const result = await conn.query(sql, [u.firstName, u.lastName, hash])
+            const result = await conn.query(sql, [u.firstname, u.lastname, hash])
             const user = result.rows[0]
             conn.release()
             return user
           } catch (err) {
-              throw new Error(`Could not add new user ${u.firstName}. Error: ${err}`)
+              throw new Error(`Could not add new user ${u.firstname}. Error: ${err}`)
           }
       }
 

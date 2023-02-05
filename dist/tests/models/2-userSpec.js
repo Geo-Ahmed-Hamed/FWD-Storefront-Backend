@@ -36,50 +36,90 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var order_1 = require("../../models/order");
-var store = new order_1.OrderStore();
-describe("Order Model", function () {
+var user_1 = require("../../models/user");
+var store = new user_1.UserStore();
+describe("User Model", function () {
     it('should have an index method', function () {
         expect(store.index).toBeDefined();
     });
-    it('should have a complete method', function () {
-        expect(store.complete).toBeDefined();
+    it('should have a show method', function () {
+        expect(store.show).toBeDefined();
     });
     it('should have a create method', function () {
         expect(store.create).toBeDefined();
     });
-    it('should have a addProduct method', function () {
-        expect(store.addProduct).toBeDefined();
+    it('should have a showUserOrder method', function () {
+        expect(store.showUserOrder).toBeDefined();
     });
-    it('index method should return a list of orders', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('should have a login method', function () {
+        expect(store.authenticate).toBeDefined();
+    });
+    it('create method should create a user', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, store.create({
+                        firstname: "Ahmed",
+                        lastname: "Hamed",
+                        password: "12345"
+                    })];
+                case 1:
+                    result = _a.sent();
+                    expect(result.id).toEqual(1);
+                    expect(result.firstname).toEqual("Ahmed");
+                    expect(result.lastname).toEqual("Hamed");
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('index method should return a list of users', function () { return __awaiter(void 0, void 0, void 0, function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, store.index()];
                 case 1:
                     result = _a.sent();
-                    expect(result).toEqual([{
-                            id: 1,
-                            user_id: 1,
-                            isActive: false
-                        }]);
+                    expect(result[0].id).toEqual(1);
+                    expect(result[0].firstname).toEqual("Ahmed");
+                    expect(result[0].lastname).toEqual("Hamed");
                     return [2 /*return*/];
             }
         });
     }); });
-    it('show method should add product to order', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('show method should return the correct user', function () { return __awaiter(void 0, void 0, void 0, function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, store.addProduct(5, 1, 1)];
+                case 0: return [4 /*yield*/, store.show(1)];
                 case 1:
                     result = _a.sent();
-                    expect(result).toEqual({
-                        id: 1,
-                        order_id: 1,
-                        product_id: 1,
-                        quantity: 5
-                    });
+                    expect(result.id).toEqual(1);
+                    expect(result.firstname).toEqual("Ahmed");
+                    expect(result.lastname).toEqual("Hamed");
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('authonticate method should return null with wrong firstname and password', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, store.authenticate('hatem', 'rwerr')];
+                case 1:
+                    result = _a.sent();
+                    expect(result).toEqual(null);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('showUserOrder method should return empty if user does not have orders', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, store.showUserOrder(1)];
+                case 1:
+                    result = _a.sent();
+                    expect(result.length).toEqual(0);
                     return [2 /*return*/];
             }
         });

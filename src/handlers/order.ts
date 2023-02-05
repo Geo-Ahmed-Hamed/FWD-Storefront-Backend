@@ -19,7 +19,7 @@ const create = async (req: Request, res: Response) => {
     try {
         const order: Order = {
             user_id: req.body.userId as unknown as number,
-            isActive: true
+            isactive: true
         }
 
         const newOrder = await store.create(order)

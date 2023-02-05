@@ -60,11 +60,10 @@ const showUserOrder = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response) => {
     try {
         const user: User = {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
+            firstname: req.body.firstName,
+            lastname: req.body.lastName,
             password: req.body.password,
         }
-
         const newUser = await store.create(user)
         const token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET as string);
         res.json(token)

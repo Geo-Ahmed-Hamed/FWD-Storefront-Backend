@@ -2,7 +2,7 @@
 
 ## Instructions
 - add .env file:
-    - PORT: application port
+    - PORT: backend port [3000 is the default]
     - POSTGRES_HOST: postgress database server ip
     - POSTGRES_DB: postgress database name
     - POSTGRES_USER: postgress database user  
@@ -14,7 +14,10 @@
     - TOKEN_SECRET: secret token for hashing
 
 - change postgress host ip in database.json
-- run [db-migrate --env dev up] in terminal to migrate database up
+- run npm install
+- Prepare postgress database:
+    - run [db-migrate --env dev up] in terminal to migrate database up
+    
 - run [npm run test] for tests if your operating system is linux
 - run [npm run test:windows] for tests if your operating system is windows
 - run [npm run start:dev] to run the project
