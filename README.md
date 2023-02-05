@@ -2,6 +2,7 @@
 
 ## Instructions
 - add .env file:
+    - PORT: application port
     - POSTGRES_HOST: postgress database server ip
     - POSTGRES_DB: postgress database name
     - POSTGRES_USER: postgress database user  
@@ -12,7 +13,7 @@
     - SALT_ROUNDS: number of salt rounds
     - TOKEN_SECRET: secret token for hashing
 
-- change postgress host ip in both files [.env, database.json]
+- change postgress host ip in database.json
 - run [db-migrate --env dev up] in terminal to migrate database up
 - run [npm run test] for tests if your operating system is linux
 - run [npm run test:windows] for tests if your operating system is windows

@@ -6,7 +6,7 @@ import orderRoutes from './handlers/order'
 import cors from 'cors';
 
 const app: express.Application = express()
-const address: string = "0.0.0.0:3000"
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json())
 app.use(cors({ origin: '*'}));
@@ -19,6 +19,6 @@ userRoutes(app);
 productRoutes(app);
 orderRoutes(app);
 
-app.listen(3000, function () {
-    console.log(`starting app on: ${address}`)
+app.listen(port, function () {
+    console.log(`starting app on: ${port}`)
 })
