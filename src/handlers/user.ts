@@ -18,28 +18,43 @@ interface UserOrderDto {
 const store = new UserStore()
 
 const index = async (_req: Request, res: Response) => {
-  const users = await store.index()
-  res.json(users)
+  try{
+    const users = await store.index()
+    res.json(users)
+  } catch(err) {
+    res.status(400)
+    res.json(err)
+  }
 }
 
 const show = async (req: Request, res: Response) => {
-   const user = await store.show(req.params.id as unknown as number)
-   res.json(user)
+  try{
+    const user = await store.show(req.params.id as unknown as number)
+    res.json(user)
+  } catch(err) {
+    res.status(400)
+    res.json(err)
+  }
 }
 
 const showUserOrder = async (req: Request, res: Response) => {
-  const userId = req.params.id as unknown as number;
-  const userOrder = await store.showUserOrder(userId)
-  const userOrderDto : UserOrderDto = {
-    orderId: userOrder[0].order_id,
-    userId: userId,
-    products: []
-  };
+  try {
+    const userId = req.params.id as unknown as number;
+    const userOrder = await store.showUserOrder(userId)
+    const userOrderDto : UserOrderDto = {
+      orderId: userOrder[0].order_id,
+      userId: userId,
+      products: []
+    };
 
-  userOrder.forEach(element => {
-    userOrderDto.products.push({name: element.product_name, price: element.product_price, quantity: element.quantity})
-  });
-  res.json(userOrderDto)
+    userOrder.forEach(element => {
+      userOrderDto.products.push({name: element.product_name, price: element.product_price, quantity: element.quantity})
+    });
+    res.json(userOrderDto)
+  } catch(err) {
+    res.status(400)
+    res.json(err)
+  }
 }
 
 const create = async (req: Request, res: Response) => {

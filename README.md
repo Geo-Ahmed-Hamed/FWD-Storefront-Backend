@@ -1,6 +1,17 @@
 # Storefront Backend Project
 
 ## Instructions
+- add .env file:
+    - POSTGRES_HOST: postgress database server ip
+    - POSTGRES_DB: postgress database name
+    - POSTGRES_USER: postgress database user  
+    - POSTGRES_PASSWORD: postgress database password
+    - POSTGRES_TEST_DB: postgress testing database name
+    - ENV: environment type [ test, dev ]
+    - BCRYPT_PASSWORD: your secret password
+    - SALT_ROUNDS: number of salt rounds
+    - TOKEN_SECRET: secret token for hashing
+
 - change postgress host ip in both files [.env, database.json]
 - run [db-migrate --env dev up] in terminal to migrate database up
 - run [npm run test] for tests if your operating system is linux
