@@ -1,12 +1,3 @@
-CREATE TABLE Users ( Id SERIAL PRIMARY KEY, 
-                     FirstName VARCHAR(100) NOT NULL, 
-                     LastName VARCHAR(100) NOT NULL, 
-                     Password VARCHAR(200) NOT NULL );
-
-CREATE TABLE Products ( Id SERIAL PRIMARY KEY, 
-                        Name VARCHAR(100) NOT NULL, 
-                        Price INT NOT NULL );
-
 CREATE TABLE Orders ( Id SERIAL PRIMARY KEY, 
                       User_Id INT NOT NULL, 
                       IsActive BOOLEAN NOT NULL,
@@ -26,4 +17,3 @@ CREATE TABLE Orders_Products ( Id SERIAL PRIMARY KEY,
                                CONSTRAINT FK_order_product FOREIGN KEY(Product_Id)
                                REFERENCES Products(Id)
                     );
-
