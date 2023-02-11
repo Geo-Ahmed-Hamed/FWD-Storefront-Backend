@@ -4,9 +4,9 @@ import userRoutes from './handlers/user'
 import productRoutes from './handlers/product'
 import orderRoutes from './handlers/order'
 import cors from 'cors';
+import port from './config'
 
 const app: express.Application = express()
-const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json())
 app.use(cors({ origin: '*'}));
@@ -22,3 +22,5 @@ orderRoutes(app);
 app.listen(port, function () {
     console.log(`starting app on: ${port}`)
 })
+
+export default app;

@@ -1,5 +1,18 @@
 # Storefront Backend Project
 
+## Setup database
+- CREATE DATABASE store;
+- CREATE DATABASE store-test;
+
+- CREATE USER full_stack_user WITH PASSWORD 'password123';
+
+- GRANT ALL PRIVILEGES ON DATABASE store TO full_stack_user;
+- GRANT ALL PRIVILEGES ON DATABASE store-test TO full_stack_user;
+
+## Ports
+- database: 5432
+- backend: 3000 [can be changed at .env file "PORT"]
+
 ## Instructions
 - add .env file:
     - PORT: backend port [3000 is the default]
@@ -21,6 +34,10 @@
 - run [npm run test] for tests if your operating system is linux
 - run [npm run test:windows] for tests if your operating system is windows
 - run [npm run start:dev] to run the project
+
+- to run supertest [to test apis]:
+    - run [npm run start:dev] to run the server
+    - run [npm run test:supertest]
 
 ## Getting Started
 
